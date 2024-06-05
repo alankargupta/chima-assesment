@@ -1,10 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { jsPDF } from 'jspdf';
 
 function PdfGenerator({ imageUrl, generatedText }) {
   const [loading, setLoading] = useState(false); // State to manage loading status
   const [error, setError] = useState(''); // State to manage error messages
   const [generatedPdf, setGeneratedPdf] = useState(null); // State to manage the generated PDF content
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true); // State to manage button disabled status
+
+  // Enable the button when both text and image are available
+  useEffect(() => {
+    if (generatedText && imageUrl) {
+      setIsButtonDisabled(false);
+    } else {
+      setIsButtonDisabled(true);
+    }
+  }, [generatedText, imageUrl]);
 
   const generateAndDownloadPdf = async () => {
     setLoading(true);
@@ -63,8 +73,8 @@ function PdfGenerator({ imageUrl, generatedText }) {
     <div>
       <button 
         onClick={generateAndDownloadPdf} 
-        className="bg-green-700 text-white h-10 w-56 rounded-md m-2 p-2"
-        disabled={!generatedPdf}
+        className={`bg-green-700 text-white h-10 w-56 rounded-md m-2 p-2 ${isButtonDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+        disabled={isButtonDisabled}
       >
         Generate & Download PDF
       </button>
