@@ -11,7 +11,7 @@ function ImageGenerator({ textInput, setImageUrl, imageUrl }) {
 
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("Authorization", `Bearer ${process.env.API_KEY}`);
+      myHeaders.append("Authorization", `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`);
 
       const body = JSON.stringify({
         model: 'dall-e-3',

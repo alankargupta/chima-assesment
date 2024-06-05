@@ -11,7 +11,7 @@ function TextGenerator({ textInput, setGeneratedText, generatedText }) {
 
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("Authorization", `Bearer ${process.env.API_KEY}`);
+      myHeaders.append("Authorization", `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`);
 
       const body = JSON.stringify({
         model: 'gpt-4',

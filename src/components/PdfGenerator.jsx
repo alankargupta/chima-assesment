@@ -64,10 +64,11 @@ function PdfGenerator({ imageUrl, generatedText }) {
       <button 
         onClick={generateAndDownloadPdf} 
         className="bg-green-700 text-white h-10 w-56 rounded-md m-2 p-2"
+        disabled={!generatedPdf}
       >
         Generate & Download PDF
       </button>
-      {loading && <p>PDF is being generated...</p>}
+      {loading && <p className='text-xl text-green-700 p-2'>PDF is being generated...</p>}
       {error && <p>{error}</p>}
       {generatedPdf && !loading && !error && (
         <div>
