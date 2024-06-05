@@ -12,6 +12,8 @@ function Body() {
     // Handle input change
     const handlePrompt = (e) => {
         setTextInput(e.target.value);
+        setImageUrl("")
+        setGeneratedText("")
     };
 
     // Handle form submission

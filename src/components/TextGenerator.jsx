@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import myHeaders, { textGenerationPrompt, textGenerationUrl } from './constants';
 
 function TextGenerator({ textInput, setGeneratedText, generatedText }) {
   const [loading, setLoading] = useState(false); // State to manage loading status
@@ -9,13 +10,9 @@ function TextGenerator({ textInput, setGeneratedText, generatedText }) {
       setLoading(true); // Set loading to true at the start of the API call
       setError(''); // Clear any previous error messages
 
-      const myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("Authorization", `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`);
-
       const body = JSON.stringify({
         model: 'gpt-4',
-        messages: [{ role: "user", content: `Write content for a pdf for the following prompt, content should be formatted so that it can be inserted into a pdf later: ${textInput}` }],
+        messages: [{ role: "user", content: `${textGenerationPrompt}: ${textInput}` }],
         max_tokens: 1500,
       });
 
@@ -26,7 +23,7 @@ function TextGenerator({ textInput, setGeneratedText, generatedText }) {
       };
 
       try {
-        const response = await fetch("https://api.openai.com/v1/chat/completions", requestOptions);
+        const response = await fetch(textGenerationUrl, requestOptions);
         const data = await response.json();
         if (data && data.choices && data.choices.length > 0) {
           setGeneratedText(data.choices[0].message.content);

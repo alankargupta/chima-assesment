@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import myHeaders, { imageGenerationPrompt, imageGenerationUrl } from './constants';
 
 function ImageGenerator({ textInput, setImageUrl, imageUrl }) {
   const [loading, setLoading] = useState(false); // State to manage loading status
@@ -9,13 +10,9 @@ function ImageGenerator({ textInput, setImageUrl, imageUrl }) {
       setLoading(true); // Set loading to true at the start of the API call
       setError(''); // Clear any previous error messages
 
-      const myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("Authorization", `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`);
-
       const body = JSON.stringify({
         model: 'dall-e-3',
-        prompt: `Generate multiple images for a pdf for the following prompt: ${textInput}`,
+        prompt: `${imageGenerationPrompt}: ${textInput}`,
       });
 
       const requestOptions = {
@@ -25,7 +22,7 @@ function ImageGenerator({ textInput, setImageUrl, imageUrl }) {
       };
 
       try {
-        const response = await fetch("https://api.openai.com/v1/images/generations", requestOptions);
+        const response = await fetch(imageGenerationUrl, requestOptions);
         const data = await response.json();
         if (data && data.data && data.data.length > 0) {
           setImageUrl(data.data[0].url);
